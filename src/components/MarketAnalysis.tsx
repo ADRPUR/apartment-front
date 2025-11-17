@@ -4,6 +4,7 @@ import { Card } from './ui/Card'
 import { useT } from '../state/i18nStore'
 import { useMarketData } from '../hooks/useMarketData'
 import { formatNumber } from '../utils/formatters'
+import { PriceHistogram } from './PriceHistogram'
 type SourceKey = 'proimobil.md' | 'accesimobil.md' | 'all'
 export function MarketAnalysis() {
     const t = useT()
@@ -113,6 +114,15 @@ export function MarketAnalysis() {
                                             {formatNumber(sourceData.max_price_per_sqm)} €/m²
                                         </span>
                                     </div>
+
+                                    {/* Price Distribution Histogram */}
+                                    {sourceData.price_histogram && sourceData.price_histogram.length > 0 && (
+                                        <PriceHistogram
+                                            data={sourceData.price_histogram}
+                                            dominantRange={sourceData.dominant_range}
+                                        />
+                                    )}
+
                                     {!isSummary && sourceData.url && (
                                         <div className="mt-2 text-[10px] opacity-60">
                                             {t('market.openSiteHint') ??
