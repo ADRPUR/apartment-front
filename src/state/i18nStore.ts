@@ -71,6 +71,31 @@ const D: Record<Lang, Record<string, string>> = {
         'market.maxPriceSqm': 'Max price / m²',
         'market.avgPriceSqm': 'Average price / m²',
         'market.medianPriceSqm': 'Median price / m²',
+        'market.quartileData': 'Quartile Data',
+        'market.q1Short': 'Budget',
+        'market.q2Short': 'Median',
+        'market.q3Short': 'Premium',
+        'market.iqrShort': 'Range',
+
+        // Quartile analysis
+        'quartile.title': 'Quartile Analysis',
+        'quartile.badge': 'Advanced',
+        'quartile.description':
+            'Statistical analysis that eliminates extreme outliers to show the realistic price distribution.',
+        'quartile.q1Label': 'Budget Range',
+        'quartile.q2Label': 'Median (Q2)',
+        'quartile.q3Label': 'Premium Range',
+        'quartile.iqrLabel': 'Interquartile Range',
+        'quartile.marketWidth': 'Market width',
+        'quartile.priceRanges': 'Price Range Categories',
+        'quartile.budgetRange': 'Budget',
+        'quartile.affordableRange': 'Affordable',
+        'quartile.midRange': 'Mid-range',
+        'quartile.premiumRange': 'Premium',
+        'quartile.outliersRemoved': 'Outliers removed',
+        'quartile.ads': 'ads',
+        'quartile.interpretation': 'Interpretation',
+        'quartile.medianDescription': 'Middle point of the market',
 
         // new keys
         'market.allLabel': 'All platforms',
@@ -147,6 +172,31 @@ const D: Record<Lang, Record<string, string>> = {
         'market.maxPriceSqm': 'Preț maxim / m²',
         'market.avgPriceSqm': 'Preț mediu / m²',
         'market.medianPriceSqm': 'Mediană / m²',
+        'market.quartileData': 'Date Quartile',
+        'market.q1Short': 'Buget',
+        'market.q2Short': 'Mediană',
+        'market.q3Short': 'Premium',
+        'market.iqrShort': 'Interval',
+
+        // Analiza quartilă
+        'quartile.title': 'Analiză Quartilă',
+        'quartile.badge': 'Avansat',
+        'quartile.description':
+            'Analiză statistică care elimină valorile extreme pentru a arăta distribuția realistă a prețurilor.',
+        'quartile.q1Label': 'Zona Buget',
+        'quartile.q2Label': 'Mediană (Q2)',
+        'quartile.q3Label': 'Zona Premium',
+        'quartile.iqrLabel': 'Interval Intercuartilic',
+        'quartile.marketWidth': 'Lățime piață',
+        'quartile.priceRanges': 'Categorii Interval Preț',
+        'quartile.budgetRange': 'Buget',
+        'quartile.affordableRange': 'Accesibil',
+        'quartile.midRange': 'Mediu',
+        'quartile.premiumRange': 'Premium',
+        'quartile.outliersRemoved': 'Valori extreme eliminate',
+        'quartile.ads': 'anunțuri',
+        'quartile.interpretation': 'Interpretare',
+        'quartile.medianDescription': 'Punctul median al pieței',
 
         // chei noi
         'market.allLabel': 'Toate platformele',

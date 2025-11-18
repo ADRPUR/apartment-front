@@ -5,20 +5,22 @@ import { useT } from '../state/i18nStore'
 import { useMarketData } from '../hooks/useMarketData'
 import { formatNumber } from '../utils/formatters'
 import { PriceHistogram } from './PriceHistogram'
-type SourceKey = 'proimobil.md' | 'accesimobil.md' | 'all'
+import { QuartileAnalysis } from './QuartileAnalysis'
+type SourceKey = 'proimobil.md' | 'accesimobil.md' | '999.md' | 'all'
 export function MarketAnalysis() {
     const t = useT()
     const { data, loading, error } = useMarketData()
     const labelMap: Record<SourceKey, string> = useMemo(() => ({
         'proimobil.md': 'Proimobil.md',
         'accesimobil.md': 'AccesImobil.md',
+        '999.md': '999.md',
         all: t('market.allLabel') ?? 'All platforms'
     }), [t])
     const handleOpenUrl = (url: string | null | undefined) => {
         if (!url) return
         window.open(url, '_blank', 'noopener,noreferrer')
     }
-    const orderedSources: SourceKey[] = ['proimobil.md', 'accesimobil.md', 'all']
+    const orderedSources: SourceKey[] = ['proimobil.md', 'accesimobil.md', '999.md', 'all']
     return (
         <Card
             title={t('market.title')}
@@ -37,9 +39,17 @@ export function MarketAnalysis() {
                     {t('market.errorDetails')}: {error}
                 </div>
             )}
+
+            {/* Quartile Analysis Section */}
+            {!loading && data?.quartile_analysis && (
+                <div className="mb-6">
+                    <QuartileAnalysis data={data.quartile_analysis} />
+                </div>
+            )}
+
             <div className="space-y-3">
                 {orderedSources.map(sourceKey => {
-                    const sourceData = data?.find(s => s.source === sourceKey) || null
+                    const sourceData = data?.sources?.find(s => s.source === sourceKey) || null
                     const hasError = !loading && !sourceData && !!data
                     const isSummary = sourceKey === 'all'
                     return (
@@ -114,6 +124,42 @@ export function MarketAnalysis() {
                                             {formatNumber(sourceData.max_price_per_sqm)} €/m²
                                         </span>
                                     </div>
+
+                                    {/* Quartile data for individual sources */}
+                                    {sourceData.q1_price_per_sqm > 0 && (
+                                        <>
+                                            <div className="border-t border-slate-200 dark:border-slate-800 my-1" />
+                                            <div className="bg-slate-50 dark:bg-slate-800/50 rounded p-2 space-y-1">
+                                                <div className="text-[10px] font-semibold text-slate-600 dark:text-slate-400 mb-1">
+                                                    {t('market.quartileData')}
+                                                </div>
+                                                <div className="flex justify-between text-[11px]">
+                                                    <span className="opacity-70">Q1 ({t('market.q1Short')})</span>
+                                                    <span className="font-medium text-blue-600 dark:text-blue-400">
+                                                        {formatNumber(sourceData.q1_price_per_sqm)} €/m²
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between text-[11px]">
+                                                    <span className="opacity-70">Q2 ({t('market.q2Short')})</span>
+                                                    <span className="font-medium text-green-600 dark:text-green-400">
+                                                        {formatNumber(sourceData.q2_price_per_sqm)} €/m²
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between text-[11px]">
+                                                    <span className="opacity-70">Q3 ({t('market.q3Short')})</span>
+                                                    <span className="font-medium text-purple-600 dark:text-purple-400">
+                                                        {formatNumber(sourceData.q3_price_per_sqm)} €/m²
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between text-[11px]">
+                                                    <span className="opacity-70">IQR ({t('market.iqrShort')})</span>
+                                                    <span className="font-medium text-orange-600 dark:text-orange-400">
+                                                        {formatNumber(sourceData.iqr_price_per_sqm)} €/m²
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
 
                                     {/* Price Distribution Histogram */}
                                     {sourceData.price_histogram && sourceData.price_histogram.length > 0 && (

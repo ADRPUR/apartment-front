@@ -1,4 +1,4 @@
-import { fetchMarketSummary, type MarketStats } from '../services/market'
+import { fetchMarketSummary, type MarketSummaryResponse } from '../services/market'
 import { useApi } from './useApi'
 import { CACHE_CONFIG } from '../constants'
 
@@ -7,7 +7,7 @@ import { CACHE_CONFIG } from '../constants'
  * This ensures market data is only fetched once and shared across components
  */
 export function useMarketData() {
-  return useApi<MarketStats[]>(
+  return useApi<MarketSummaryResponse>(
     fetchMarketSummary,
     [], // Only fetch once on mount
     {
@@ -23,7 +23,7 @@ export function useMarketData() {
 export function useMarketSource(source: string) {
   const { data, loading, error, refetch } = useMarketData()
 
-  const sourceData = data?.find((s) => s.source === source) ?? null
+  const sourceData = data?.sources?.find((s) => s.source === source) ?? null
 
   return { data: sourceData, loading, error, refetch }
 }
