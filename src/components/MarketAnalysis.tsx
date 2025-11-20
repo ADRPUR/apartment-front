@@ -5,7 +5,9 @@ import { useT } from '../state/i18nStore'
 import { useMarketData } from '../hooks/useMarketData'
 import { formatNumber } from '../utils/formatters'
 import { PriceHistogram } from './PriceHistogram'
+import { PriceDistributionChart } from './PriceDistributionChart'
 import { QuartileAnalysis } from './QuartileAnalysis'
+import { MiniDashboard } from './MiniDashboard'
 type SourceKey = 'proimobil.md' | 'accesimobil.md' | '999.md' | 'all'
 export function MarketAnalysis() {
     const t = useT()
@@ -47,7 +49,21 @@ export function MarketAnalysis() {
                 </div>
             )}
 
-            <div className="space-y-3">
+            {/* Mini Dashboard for "all" platforms */}
+            {!loading && data?.quartile_analysis && data?.sources && (() => {
+                const allPlatformsData = data.sources.find(s => s.source === 'all')
+                return allPlatformsData ? (
+                    <div className="mb-6">
+                        <MiniDashboard
+                            marketData={allPlatformsData}
+                            quartileAnalysis={data.quartile_analysis}
+                        />
+                    </div>
+                ) : null
+            })()}
+
+            {/* All source cards including All platforms in 2-column grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs mb-3">
                 {orderedSources.map(sourceKey => {
                     const sourceData = data?.sources?.find(s => s.source === sourceKey) || null
                     const hasError = !loading && !sourceData && !!data
@@ -55,9 +71,9 @@ export function MarketAnalysis() {
                     return (
                         <div
                             key={sourceKey}
-                            className="border rounded-lg p-3 bg-white/70 dark:bg-slate-900/40 text-xs flex flex-col gap-2"
+                            className="border rounded p-2 bg-white/70 dark:bg-slate-900/40"
                         >
-                            <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center justify-between mb-1.5">
                                 <div
                                     className={`font-semibold text-slate-800 dark:text-slate-100 ${
                                         sourceData?.url
@@ -82,7 +98,7 @@ export function MarketAnalysis() {
                                 )}
                             </div>
                             {!loading && sourceData && (
-                                <>
+                                <div className="space-y-0.5">
                                     <div className="flex justify-between">
                                         <span className="opacity-70">
                                             {t('market.total')}
@@ -91,7 +107,7 @@ export function MarketAnalysis() {
                                             {formatNumber(sourceData.total_ads, 0)}
                                         </span>
                                     </div>
-                                    <div className="border-t border-slate-200 dark:border-slate-800 my-1" />
+                                    <div className="border-t border-slate-200 dark:border-slate-800 my-0.5" />
                                     <div className="flex justify-between">
                                         <span className="opacity-70">
                                             {t('market.minPriceSqm')}
@@ -125,44 +141,44 @@ export function MarketAnalysis() {
                                         </span>
                                     </div>
 
-                                    {/* Quartile data for individual sources */}
+                                    {/* Quartile data */}
                                     {sourceData.q1_price_per_sqm > 0 && (
                                         <>
-                                            <div className="border-t border-slate-200 dark:border-slate-800 my-1" />
-                                            <div className="bg-slate-50 dark:bg-slate-800/50 rounded p-2 space-y-1">
-                                                <div className="text-[10px] font-semibold text-slate-600 dark:text-slate-400 mb-1">
+                                            <div className="border-t border-slate-200 dark:border-slate-800 my-0.5" />
+                                            <div className="bg-slate-50 dark:bg-slate-800/50 rounded p-1.5 space-y-0.5">
+                                                <div className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">
                                                     {t('market.quartileData')}
                                                 </div>
-                                                <div className="flex justify-between text-[11px]">
-                                                    <span className="opacity-70">Q1 ({t('market.q1Short')})</span>
+                                                <div className="flex justify-between text-xs">
+                                                    <span className="opacity-70">Q1</span>
                                                     <span className="font-medium text-blue-600 dark:text-blue-400">
-                                                        {formatNumber(sourceData.q1_price_per_sqm)} €/m²
+                                                        {formatNumber(sourceData.q1_price_per_sqm)}
                                                     </span>
                                                 </div>
-                                                <div className="flex justify-between text-[11px]">
-                                                    <span className="opacity-70">Q2 ({t('market.q2Short')})</span>
+                                                <div className="flex justify-between text-xs">
+                                                    <span className="opacity-70">Q2</span>
                                                     <span className="font-medium text-green-600 dark:text-green-400">
-                                                        {formatNumber(sourceData.q2_price_per_sqm)} €/m²
+                                                        {formatNumber(sourceData.q2_price_per_sqm)}
                                                     </span>
                                                 </div>
-                                                <div className="flex justify-between text-[11px]">
-                                                    <span className="opacity-70">Q3 ({t('market.q3Short')})</span>
+                                                <div className="flex justify-between text-xs">
+                                                    <span className="opacity-70">Q3</span>
                                                     <span className="font-medium text-purple-600 dark:text-purple-400">
-                                                        {formatNumber(sourceData.q3_price_per_sqm)} €/m²
+                                                        {formatNumber(sourceData.q3_price_per_sqm)}
                                                     </span>
                                                 </div>
-                                                <div className="flex justify-between text-[11px]">
-                                                    <span className="opacity-70">IQR ({t('market.iqrShort')})</span>
+                                                <div className="flex justify-between text-xs">
+                                                    <span className="opacity-70">IQR</span>
                                                     <span className="font-medium text-orange-600 dark:text-orange-400">
-                                                        {formatNumber(sourceData.iqr_price_per_sqm)} €/m²
+                                                        {formatNumber(sourceData.iqr_price_per_sqm)}
                                                     </span>
                                                 </div>
                                             </div>
                                         </>
                                     )}
 
-                                    {/* Price Distribution Histogram */}
-                                    {sourceData.price_histogram && sourceData.price_histogram.length > 0 && (
+                                    {/* Price Distribution Histogram for individual sources only */}
+                                    {!isSummary && sourceData.price_histogram && sourceData.price_histogram.length > 0 && (
                                         <PriceHistogram
                                             data={sourceData.price_histogram}
                                             dominantRange={sourceData.dominant_range}
@@ -170,18 +186,18 @@ export function MarketAnalysis() {
                                     )}
 
                                     {!isSummary && sourceData.url && (
-                                        <div className="mt-2 text-[10px] opacity-60">
+                                        <div className="mt-1 text-[10px] opacity-60">
                                             {t('market.openSiteHint') ??
                                                 'Click on the title to open the listing.'}
                                         </div>
                                     )}
                                     {isSummary && (
-                                        <div className="mt-2 text-[10px] opacity-60">
+                                        <div className="mt-1 text-[10px] opacity-60">
                                             {t('market.summaryHint') ??
                                                 'Aggregate statistics for all platforms.'}
                                         </div>
                                     )}
-                                </>
+                                </div>
                             )}
                             {!loading && !sourceData && !hasError && (
                                 <div className="text-[11px] opacity-60 mt-1">
@@ -192,6 +208,23 @@ export function MarketAnalysis() {
                     )
                 })}
             </div>
+
+            {/* Price Distribution Chart - full width */}
+            {!loading && (() => {
+                const allPlatformsData = data?.sources?.find(s => s.source === 'all')
+                if (!allPlatformsData || !allPlatformsData.price_histogram || allPlatformsData.price_histogram.length === 0) {
+                    return null
+                }
+
+                return (
+                    <div className="border rounded p-2 bg-white/70 dark:bg-slate-900/40 text-xs">
+                        <PriceDistributionChart
+                            data={allPlatformsData.price_histogram}
+                            dominantRange={allPlatformsData.dominant_range}
+                        />
+                    </div>
+                )
+            })()}
         </Card>
     )
 }

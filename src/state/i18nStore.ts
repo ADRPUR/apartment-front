@@ -102,7 +102,30 @@ const D: Record<Lang, Record<string, string>> = {
         'market.openSiteHint':
             'Click on the title to open the listing page in a new tab.',
         'market.summaryHint': 'Aggregated statistics for all platforms.',
-        'market.noData': 'No data available.'
+        'market.noData': 'No data available.',
+        'market.priceDistribution': 'Price Distribution',
+        'market.dominantRange': 'Dominant range',
+        'market.ofListings': 'of all listings',
+        'market.ads': 'ads',
+
+        // Dashboard
+        'dashboard.title': 'Market Position Dashboard',
+        'dashboard.allPlatforms': 'All Platforms',
+        'dashboard.medianPrice': 'Median Market Price',
+        'dashboard.basedOn': 'Based on',
+        'dashboard.recommendedPrice': 'Recommended Price',
+        'dashboard.listingRange': 'Recommended Listing Range',
+        'dashboard.rangeDescription': 'Q1 to Q3 range (50% of market)',
+        'dashboard.marketPosition': 'Your Market Position',
+        'dashboard.noData': 'No data',
+        'dashboard.budgetTier': 'Budget',
+        'dashboard.affordableTier': 'Affordable',
+        'dashboard.midTier': 'Mid-range',
+        'dashboard.premiumTier': 'Premium',
+        'dashboard.insight': 'Market Insight',
+        'dashboard.insightText': 'Most listings',
+        'dashboard.insightText2': 'are priced in the',
+        'dashboard.insightText3': 'range'
     },
     ro: {
         'kpi.minRequired': 'Preț minim necesar',
@@ -201,9 +224,32 @@ const D: Record<Lang, Record<string, string>> = {
         // chei noi
         'market.allLabel': 'Toate platformele',
         'market.openSiteHint':
-            'Apasă pe titlu pentru a deschide în tab nou lista de anunțuri.',
+            'Click pe titlu pentru a deschide pagina cu anunțuri într-o filă nouă.',
         'market.summaryHint': 'Statistici agregate pentru toate platformele.',
-        'market.noData': 'Nu există date disponibile.'
+        'market.noData': 'Nu sunt date disponibile.',
+        'market.priceDistribution': 'Distribuție Prețuri',
+        'market.dominantRange': 'Interval dominant',
+        'market.ofListings': 'din toate anunțurile',
+        'market.ads': 'anunțuri',
+
+        // Panou de bord
+        'dashboard.title': 'Panou de Bord Piață',
+        'dashboard.allPlatforms': 'Toate Platformele',
+        'dashboard.medianPrice': 'Preț Median Piață',
+        'dashboard.basedOn': 'Bazat pe',
+        'dashboard.recommendedPrice': 'Preț Recomandat',
+        'dashboard.listingRange': 'Interval Recomandat Listare',
+        'dashboard.rangeDescription': 'Interval Q1-Q3 (50% din piață)',
+        'dashboard.marketPosition': 'Poziția Ta pe Piață',
+        'dashboard.noData': 'Nu sunt date',
+        'dashboard.budgetTier': 'Buget',
+        'dashboard.affordableTier': 'Accesibil',
+        'dashboard.midTier': 'Mediu',
+        'dashboard.premiumTier': 'Premium',
+        'dashboard.insight': 'Perspectivă Piață',
+        'dashboard.insightText': 'Majoritatea anunțurilor',
+        'dashboard.insightText2': 'sunt prețuite în intervalul',
+        'dashboard.insightText3': ''
     }
 }
 
